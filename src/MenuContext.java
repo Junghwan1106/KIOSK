@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-    /**             변수 선언                */
 public class MenuContext {
     private Map<String, List<Menu>> menus;
     private Map<String, List<Item>> menuItems;
@@ -62,25 +61,6 @@ public class MenuContext {
                 new Item("Cass", 4.0, "Origin beer in Korea"),
                 new Item("Draft Beer", 4.0, "Everyone likes it")
         );
-    }
-    // 상품 생성 리스트 추가
-    public void addItemToMenu(String menu, Item item) {
-        List<Item> menuList = menuItems.get(menu);
-
-        if (menuList == null) {
-            menuList = new ArrayList<>();
-            menuItems.put(menu, menuList);
-        }
-
-        menuList.add(item);
-    }
-    // 상품 삭제 리스트 추가
-    public void deleteItemFromMenu(String menu, Item item) {
-        List<Item> menuList = menuItems.get(menu);
-
-        if (menuList != null) {
-            menuList.remove(item);
-        }
     }
     // 장바구니에 상품 추가
     public void addToCart(Item menuItem) {
