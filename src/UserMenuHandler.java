@@ -2,15 +2,15 @@ import java.util.*;
 
 public class UserMenuHandler {
     private static MenuContext menuContext;
-    private Scanner scanner;
     private static AdminMenuHandler adminMenuHandler;
 
     public UserMenuHandler(MenuContext menuContext) {
         this.menuContext = menuContext;
-        this.scanner = new Scanner(System.in);
         this.adminMenuHandler = new AdminMenuHandler(menuContext);
     }
+    /**             메인 메뉴 관련 함수              */
 
+    // 메인 메뉴 출력
     public static void displayMainMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.\n");
@@ -25,14 +25,13 @@ public class UserMenuHandler {
         System.out.println(nextNum+". recent orders |   완료된 최근주문 3개와 현재 대기중인 주문들을 보여줍니다");
         UserMenuHandler.handleMainMenuInput();
     }
-
     private static int printMenu(List<Menu> menus, int num) {
         for (int i=0; i<menus.size(); i++) {
             System.out.println(num++ + ". " + menus.get(i).getName() + "   | " + menus.get(i).getDescription());
         }
         return num;
     }
-
+    // 메인 메뉴 입력
     private static void handleMainMenuInput() {
         Scanner scanner = new Scanner(System.in);
         int input = 0;
@@ -73,7 +72,7 @@ public class UserMenuHandler {
                 break;
         }
     }
-
+    // 최근 주문 목록 출력
     private static void RecentOrder(){
         System.out.println("========================================");
         System.out.println("대기 중인 주문 목록입니다.\n");
@@ -100,6 +99,9 @@ public class UserMenuHandler {
         displayMainMenu();
     }
 
+    /**             상품 선택 및 확인 관련 함수                 */
+
+    // 버거 메뉴판 출력
     private static void displayBurgersMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
@@ -110,7 +112,7 @@ public class UserMenuHandler {
 
         handleMenuItemInput(burgerItems);
     }
-
+    // 상품 선택 입력
     private static void handleMenuItemInput(List<Item> items) {
         Scanner scanner = new Scanner(System.in);
         int input = 0;
@@ -124,14 +126,13 @@ public class UserMenuHandler {
             handleMenuItemInput(items);
         }
     }
-
     public static void printMenuItems(List<Item> items) {
         for (int i=0; i<items.size(); i++) {
             int num = i + 1;
             System.out.println(num + ". " + items.get(i).getName() + "   | " + items.get(i).getPrice() + " | " + items.get(i).getDescription());
         }
     }
-
+    // 아이스크림 메뉴 출력
     private static void displayFrozenCustardMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
@@ -142,6 +143,7 @@ public class UserMenuHandler {
 
         handleMenuItemInput(frozenCustardItems);
     }
+    // 음료 메뉴 출력
     private static void displayDrinksMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
@@ -152,6 +154,7 @@ public class UserMenuHandler {
 
         handleMenuItemInput(drinkItems);
     }
+    // 맥주 메뉴 출력
     private static void displayBeerMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
@@ -162,7 +165,7 @@ public class UserMenuHandler {
 
         handleMenuItemInput(beerItems);
     }
-
+    // 상품 추가 확인
     private static void displayConfirmation(Item menuItem) {
         System.out.println(menuItem.getName() + "   | " + menuItem.getPrice() + " | " + menuItem.getDescription());
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
@@ -170,6 +173,7 @@ public class UserMenuHandler {
 
         handleConfirmationInput(menuItem);
     }
+    // 상품 추가 확인 입력
     private static void handleConfirmationInput(Item menuItem) {
         Scanner scanner = new Scanner(System.in);
         int input = 0;
@@ -193,6 +197,9 @@ public class UserMenuHandler {
         }
     }
 
+    /**             주문 관련 함수             */
+
+    // 주문하기 메뉴 출력
     private static void displayOrderMenu() {
         if(menuContext.getCart().isEmpty()){
             System.out.println("장바구니에 담긴 상품이 없습니다.");
@@ -207,7 +214,7 @@ public class UserMenuHandler {
         }
         handleOrderMenuInput();
     }
-
+    // 주문하기 메뉴 입력
     private static void handleOrderMenuInput() {
         Scanner scanner = new Scanner(System.in);
         int input = 0;
@@ -229,7 +236,7 @@ public class UserMenuHandler {
         }
     }
 
-    // 주문시 요청 사항 입력받기
+    // 주문시 요청 사항 입력 받기
     private static void displayOrderComplete() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("주문시 요청사항 메시지 : ");
@@ -248,7 +255,6 @@ public class UserMenuHandler {
         Order order = new Order();
         Date now = new Date();
 
-        // List의 깊은 복사
         List<Item> it = new ArrayList<>();
         for(Item its : menuContext.getCart()){
             it.add(its);
@@ -262,7 +268,7 @@ public class UserMenuHandler {
         order.setOrderNum(menuContext.getOrderNumber());
         menuContext.addToWaitingOrder(order);
     }
-
+    // 장바구니 초기화 및 메인 메뉴 출력
     private static void resetCartAndDisplayMainMenu() {
         menuContext.resetCart();
         System.out.println("(3초후 메뉴판으로 돌아갑니다.)");
@@ -274,6 +280,9 @@ public class UserMenuHandler {
         displayMainMenu();
     }
 
+    /**             주문 취소 관련 함수             */
+
+    // 주문 취소 메뉴 출력
     private static void handleCancelMenuInput() {
         if(!menuContext.getCart().isEmpty()) {
             System.out.println("주문을 취소하시겠습니까?");
@@ -285,7 +294,7 @@ public class UserMenuHandler {
             displayMainMenu();
         }
     }
-
+    // 주문 취소 메뉴 입력 및 확인 처리
     private static void handleCancelConfirmationInput() {
         Scanner scanner = new Scanner(System.in);
         int input = 0;

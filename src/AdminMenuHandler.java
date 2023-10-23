@@ -9,8 +9,9 @@ public class AdminMenuHandler {
         this.menuContext = menuContext;
         this.scanner = new Scanner(System.in);
     }
+    /**             메인 관리자 메뉴           */
 
-    // 관리자 페이지 로드
+    // 메인 관리자 메뉴를 표시합니다.
     public void displayAdminMenu() {
         System.out.println("Admin ToToRo's 페이지다. 이말이양!");
         System.out.println("1. 대기주문 목록");
@@ -48,15 +49,16 @@ public class AdminMenuHandler {
                 break;
         }
     }
+    /**         주문 처리 관련 메소드           */
 
-    // 모든 주문 상세 출력
+    // 모든 주문 상세 정보를 출력하는 메소드
     public static void printOrders(List<Order> orders) {
         for (int i=0; i<orders.size(); i++) {
             printOrder(orders.get(i));
             System.out.println();
         }
     }
-    // 최근 3개 주문 상세 출력
+    // 최근 3개의 주문 상세 정보를 출력하는 메소드
     public static void printRecentOrders(List<Order> orders) { //
         int tempNum=orders.size()-3;
         if (tempNum < 0){
@@ -72,7 +74,7 @@ public class AdminMenuHandler {
             System.out.println();
         }
     }
-    // 선택한 주문 내역 출력
+    // 선택한 주문 내역을 출력하는 메소드
     private static void printOrder(Order selectedOrder) {
         int num = selectedOrder.getOrderNum();
         System.out.println("대기 번호 : " + num);
@@ -87,9 +89,10 @@ public class AdminMenuHandler {
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         String dateString = sdf.format(date);
         System.out.println("주문 일시: " + dateString);
-    }// printOrder() of the end
+    }
+    /**         대기 중인 주문 처리 관련 함수           */
 
-    // 1. 대기 중인 주문 조회 및 완료 화면
+    //대기 중인 주문 조회 및 완료 화면
     private void displayWaitingOrder() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("========================================");
@@ -109,7 +112,7 @@ public class AdminMenuHandler {
         }
     }
 
-    // 주문 완료 처리할 메서드
+    // 대기 중인 주문 처리
     private void handleWaitingOrders(List<Order> orders) {
         int input = scanner.nextInt();  // 선택한 주문 번호
         Order selectedOrder = new Order(); // 선택한 주문
@@ -128,11 +131,11 @@ public class AdminMenuHandler {
             System.out.println("해당 번호에 맞는 주문이 없습니다.");
             System.out.println("다시 입력해주세요.");
             handleWaitingOrders(orders);
-        }// if~else() of the end
+        }
 
     }
 
-    // 주문 완료 처리
+    // 완료할 것인지 확인 후 처리하는 부분
     private void confirmCompleteOrder(Order selectedOrder) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("아래 주문을 완료 처리 하시겠습니까?\n");
@@ -155,14 +158,13 @@ public class AdminMenuHandler {
             confirmCompleteOrder(selectedOrder);
         }
     }
+    /**         완료된 주문 리스트에 추가/삭제 함수들           */
 
-
-    // 주문 완료 리스트에 넣기
+    // 완료된 주문 리스트에 추가하는 부분
     private void setCompleteOrder(Order selectedOrder) {
         Order order = new Order();
         Date now = new Date();
 
-        // List의 깊은 복사
         List<Item> it = new ArrayList<>();
         for(Item its : selectedOrder.getOrderItems()){
             it.add(its);
@@ -177,12 +179,12 @@ public class AdminMenuHandler {
         menuContext.addToCompleteOrder(order);
     }
 
-    // 주문 완료 처리된 주문은 대기 리스트에서 제외
+    // 대기 중인 리스트에서 삭제하는 부분
     private void resetWaitingOrder(Order selectedOrder) {
         menuContext.getWaitingOrders().remove(selectedOrder);
     }
 
-    // 2. 주문 완료 목록 출력
+    // 완료된 주문 목록 출력
     private void printCompletedOrder() {
         Scanner scanner = new Scanner(System.in);
 
@@ -214,7 +216,7 @@ public class AdminMenuHandler {
             printCompletedOrder();
         }
     }
-
+    //삭제할 상품 찾기
     public boolean findDeleteMenu(int menu, String name) {
         ArrayList<String> menuNames = new ArrayList<>(Arrays.asList("Burgers", "Frozen Custard", "Drinks", "Beer"));
         for (Item item : menuContext.getMenuItems(menuNames.get(menu - 1))) {
@@ -229,7 +231,7 @@ public class AdminMenuHandler {
         return false;
     }
 
-    // 메뉴판으로 돌아갈건지 아닌지 묻기.
+    //메인 페이지로 돌아가거나 다시 상품 삭제를 할지 묻는 부분
     private int wantToMainOrAgain() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1. 메뉴판  2. 상품삭제");
@@ -238,7 +240,7 @@ public class AdminMenuHandler {
 
         return result;
     }
-    // 4. 상품 생성
+    //상품 생성
     private void createItem() {
         Scanner scanner = new Scanner(System.in);
 
@@ -290,7 +292,7 @@ public class AdminMenuHandler {
         UserMenuHandler.displayMainMenu();
     }
 
-    // 3. 상품 삭제
+    //상품 삭제
     private void deleteItem() {
         Scanner scanner = new Scanner(System.in);
 

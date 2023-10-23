@@ -1,4 +1,6 @@
 public class ShakeShackBurgerApplication {
+
+    /**             APP 실행            */
     public static void main(String[] args) {
         MenuContext menuContext = new MenuContext();
         UserMenuHandler userMenuHandler = new UserMenuHandler(menuContext);

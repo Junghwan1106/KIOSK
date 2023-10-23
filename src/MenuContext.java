@@ -3,15 +3,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+    /**             변수 선언                */
 public class MenuContext {
     private Map<String, List<Menu>> menus;
     private Map<String, List<Item>> menuItems;
     private List<Item> cart;
     private double totalPrice;
     private int orderNumber;
-    private List<Order> waitingOrders; // add - 대기 주문 상품
-    private List<Order> completedOrders; // add - 완료된 주문 상품
+    private List<Order> waitingOrders;
+    private List<Order> completedOrders;
 
+    /**             생성자                */
     public MenuContext() {
         menus = new HashMap<>();
         menuItems = new HashMap<>();
@@ -24,6 +26,7 @@ public class MenuContext {
         initializeMenuItems();
     }
 
+    // 메뉴 생성 리스트 추가
     public void initializeMenuItems() {
         addMenus("Main",
                 new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거"),
@@ -79,11 +82,12 @@ public class MenuContext {
             menuList.remove(item);
         }
     }
+    // 장바구니에 상품 추가
     public void addToCart(Item menuItem) {
         cart.add(menuItem);
         totalPrice += menuItem.getPrice();
     }
-
+    // 장바구니에 상품 삭제
     public void displayCart() {
         for (Item item : cart) {
             System.out.println(item.getName() + " | "
